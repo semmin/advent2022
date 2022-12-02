@@ -1,4 +1,4 @@
-h2 Description
+##Description
 
 Appreciative of your help yesterday, one Elf gives you an encrypted strategy guide (your puzzle input) that they say will be sure to help you win. "The first column is what your opponent is going to play: A for Rock, B for Paper, and C for Scissors. The second column--" Suddenly, the Elf is called away to help with someone's tent.
 
@@ -10,9 +10,9 @@ Since you can't be sure if the Elf is trying to help you or trick you, you shoul
 
 For example, suppose you were given the following strategy guide:
 
-A Y
-B X
-C Z
+  A Y
+  B X
+  C Z
 This strategy guide predicts and recommends the following:
 
 In the first round, your opponent will choose Rock (A), and you should choose Paper (Y). This ends in a win for you with a score of 8 (2 because you chose Paper + 6 because you won).
