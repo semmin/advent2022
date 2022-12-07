@@ -13,40 +13,65 @@ def parse_input(stream)
 end
 
 class Ship
-    def def initialize(raw_data)
+    STACK_POSITIONS = { 1 => 1, 5 => 2, 9 => 3, 13 => 4, 17 => 5,
+                        21 => 6, 25 => 7, 29 => 8, 33 => 9}
+
+    def initialize(raw_data)
       @raw_data = raw_data
     end
 
-    def move(amount, from, to)
-        amount.times do
-            cargo[to].push(cargo[from].pop)
-        end
+    def raw_data
+        @raw_data
     end
 
-    private
+    def move(args)
+        amount, from, to = *args
+        # === part one (moving one at the time) ===
+        # amount.to_i.times do
+        #     cargo[to.to_i].push(cargo[from.to_i].pop)
+        # end
+
+        # === part two ===
+        cargo[to.to_i].push(*cargo[from.to_i].pop(amount.to_i))
+    end
 
     def cargo
         @cargo ||= Array.new(10)
     end
 
     def add(stack_number, value)
-        cargo[stack_number].push value
+        if cargo[stack_number].nil?
+            cargo[stack_number] = []
+        end
+        stack = cargo[stack_number]
+        stack.push value
     end
 
-    def build_cargo_from_raw
+    def build_cargo_from_raw_data
         len = raw_data.size - 1
-        for i in len..0 do
-            while ch = raw_data[i].shift do
+        len_row = raw_data[0].length - 1
+        len.downto(0) do |i|
+            for j in 0..len_row do
+                if raw_data[i][j] =~ /\w/
+                    add(STACK_POSITIONS[j], raw_data[i][j])
+                end
             end
         end
     end
 end
 
+# build array of stacks
 stream = File.open("input.txt")
-puts parse_input(stream)
+s = Ship.new(parse_input(stream))
+s.build_cargo_from_raw_data
 
+# rewind emty line
+stream.gets
 
-# while row = stream.gets() do
-# 
-# end
+# replay moves
+while row = stream.gets() do
+    s.move(row.scan(/\d+/))
+end
 stream.close
+
+puts s.cargo.map{|stack| stack.last unless stack.nil?}.join('')
