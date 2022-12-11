@@ -61,6 +61,9 @@ sizes = calc_sizes(al)
 # ==== part_one ====
 # pp sizes.select {|k,v| v <= 100000}.inject(0) {|acc, (k,v)| acc + v}
 
+
+# === part two ===
+# sort sizes, find closest to SHORT using BS
 TOTAL_SPACE = 70_000_000
 NEEDED = 30_000_000
 used_space = sizes['/']
@@ -70,4 +73,23 @@ pp "Unused: #{unused_space}"
 short = (unused_space - NEEDED).abs
 pp "Short: #{short}"
 
-# sort sizes, find closest to SHORT using BS
+class Array
+    def binary_search(needle)
+        l,r = 0, self.length - 1
+
+        while l < r
+            pivot = (l+r)/2
+            if self[pivot] < needle
+                l = pivot + 1
+            elsif self[pivot] > needle
+                r = pivot - 1
+            else
+                return pivot
+            end
+        end
+        r
+    end
+end
+
+sizes_a = sizes.values.sort
+pp sizes_a[sizes_a.binary_search(short)]
