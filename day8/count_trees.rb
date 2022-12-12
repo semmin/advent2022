@@ -78,52 +78,40 @@ end
 
 def ss_left(grid, i, j)
     left = grid[i].first(j)
-    score = 1
+    score = 0
     (left.length - 1).downto(0) do |ii|
-        if left[ii] < grid[i][j]
-            score += 1
-        else
-            break
-        end
+        score += 1
+        break if left[ii] >= grid[i][j]
     end
     score
 end
 
 def ss_right(grid, i, j)
     right = grid[i].last(grid[0].length - 1 - j)
-    score = 1
+    score = 0
     right.each do |el|
-        if el < grid[i][j]
-            score += 1
-        else
-            break
-        end
+        score += 1
+        break if el >= grid[i][j]
     end
     score
 end
 
 def ss_top(grid, i, j)
     top = grid.column(j).first(i)
-    score = 1
+    score = 0
     (top.length - 1).downto(0) do |ii|
-        if top[ii] < grid[i][j]
-            score += 1
-        else
-            break
-        end
+        score += 1
+        break if top[ii] >= grid[i][j]
     end
     score
 end
 
 def ss_bottom(grid, i, j)
     bottom = grid.column(j).last(grid.length - 1 - i)
-    score = 1
+    score = 0
     bottom.each do |el|
-        if el < grid[i][j]
-            score += 1
-        else
-            break
-        end
+        score += 1
+        break if el >= grid[i][j]
     end
     score
 end
